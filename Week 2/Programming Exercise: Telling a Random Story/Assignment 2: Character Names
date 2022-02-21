@@ -1,0 +1,61 @@
+import edu.duke.*;
+import java.util.ArrayList;
+public class CharactersInPlay {
+    private ArrayList<String> names;
+    private ArrayList<Integer> counts;
+    
+    public CharactersInPlay() {
+        names = new ArrayList<String>();
+        counts = new ArrayList<Integer>();
+    }
+    
+    public void update(String person) {
+        
+        int index = names.indexOf(person);
+        if(index == -1) {
+            names.add(person);
+            counts.add(1);
+        }
+        else{
+            int freqs = counts.get(index);
+            counts.set(index, freqs+1);
+        }
+    }
+    
+    public void findAllCharacters() {
+        names.clear();
+        counts.clear();
+        FileResource resource = new FileResource();
+        for(String line: resource.lines()) {
+            int periodLoc = line.indexOf(".");
+            if(periodLoc != -1) {
+                String person = line.substring(0, periodLoc);
+                update(person);
+            }
+        }
+    }
+    
+    public void tester() {
+        findAllCharacters();
+        for(int k=0; k < names.size(); k++) {
+            System.out.println(names.get(k) + " " + counts.get(k));
+        }
+        System.out.println("-------");
+        charactersWithNumParts(5, 1000000);
+    }
+    
+    public void charactersWithNumParts(int num1, int num2) {
+        for(int k=0; k < names.size(); k++) {
+            //String character = names.get(k);
+            //if(character.length() >= num1 && character.length() <= num2) {
+            //    int index = names.indexOf(character);
+                
+            //    System.out.println(names.get(index) + " " + counts.get(index));
+            int freqs = counts.get(k);
+            if(freqs >= num1 && freqs <= num2) {
+                System.out.println(names.get(k) + " " + counts.get(k));
+            }
+        }   
+    }
+    
+}
